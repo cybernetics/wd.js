@@ -1,0 +1,22 @@
+{
+  "name": "wd.js",
+  "version": "0.0.0",
+  "description": "A lightweight, easy-to-use javascript framework, for students.",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/tjwudi/wd.js"
+  },
+  "keywords": [
+    "javascript",
+    "framework"
+  ],
+  "author": "John Wu <webmaster@leapoahead.com> (https://github.com/tjwudi)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tjwudi/wd.js/issues"
+  },
+  "homepage": "https://github.com/tjwudi/wd.js"
+}
