@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A lightweight, easy-to-use javascript framework, for students.",
   "scripts": {
-    "test": "npm test"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
