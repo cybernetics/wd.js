@@ -1,9 +1,5 @@
 {
   "name": "wd.js",
   "description": "A lightweight, easy-to-use javascript framework, for students.",
-  "version": "0.0.0",
-  "options": {
-    "outdir": "doc",
-    "paths": "src"
-  }
+  "version": "0.0.0"
 }

@@ -2,26 +2,37 @@ var gulp = require('gulp'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   rename = require('gulp-rename'),
-  path = require('path');
+  yuidoc = require('gulp-yuidoc'),
+  path = require('path'),
+  yuidocConf = require('./yuidoc.json');
 
 var sourceFiles = ['src/es5-shim/**.js'],
-  destFilepath = 'dest',
+  destDir = 'dest',
   destFilename = 'wd.js',
-  destMinifiedFilename = 'wd.min.js';
+  destMinifiedFilename = 'wd.min.js',
+  docDir = 'doc';
 
 gulp.task('concat', function() {
   return gulp.src(sourceFiles)
     .pipe(concat(destFilename))
-    .pipe(gulp.dest(destFilepath));
+    .pipe(gulp.dest(destDir));
 });
 
 gulp.task('uglify', ['concat'], function() {
-  return gulp.src(path.join(destFilepath, destFilename))
+  return gulp.src(path.join(destDir, destFilename))
     .pipe(uglify())
     .pipe(rename(destMinifiedFilename))
-    .pipe(gulp.dest(destFilepath))
+    .pipe(gulp.dest(destDir))
 });
 
-gulp.task('build', ['uglify'], function() {
+gulp.task('yuidoc', function() {
+  return gulp.src(sourceFiles)
+    .pipe(yuidoc({
+      project: yuidocConf
+    }))
+    .pipe(gulp.dest(docDir));
+});
+
+gulp.task('build', ['concat', 'uglify', 'yuidoc'], function() {
 
 });
