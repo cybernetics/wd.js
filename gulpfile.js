@@ -6,7 +6,8 @@ var gulp = require('gulp'),
   path = require('path'),
   yuidocConf = require('./yuidoc.json');
 
-var sourceFiles = ['src/es5-shim/**.js'],
+var sourceFiles = ['src/core/core.js',
+    'src/es5-shim/**.js'],
   destDir = 'dest',
   destFilename = 'wd.js',
   destMinifiedFilename = 'wd.min.js',
