@@ -3,8 +3,10 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   rename = require('gulp-rename'),
   yuidoc = require('gulp-yuidoc'),
+  header = require('gulp-header'),
   path = require('path'),
-  yuidocConf = require('./yuidoc.json');
+  yuidocConf = require('./yuidoc.json'),
+  pkg = require('./package.json');
 
 var sourceFiles = ['src/core/core.js',
     'src/es5-shim/**.js',
@@ -14,7 +16,11 @@ var sourceFiles = ['src/core/core.js',
   destDir = 'dest',
   destFilename = 'wd.js',
   destMinifiedFilename = 'wd.min.js',
-  docDir = 'doc';
+  docDir = 'doc',
+  headerInfo = ['/**',
+    '*  wd.js v<%= pkg.version %>',
+    '*  copyright John Wu',
+    '*/\n'].join('\n');
 
 gulp.task('concat', function() {
   return gulp.src(sourceFiles)
@@ -25,6 +31,7 @@ gulp.task('concat', function() {
 gulp.task('uglify', ['concat'], function() {
   return gulp.src(path.join(destDir, destFilename))
     .pipe(uglify())
+    .pipe(header(headerInfo, { pkg: pkg }))
     .pipe(rename(destMinifiedFilename))
     .pipe(gulp.dest(destDir))
 });
