@@ -111,14 +111,14 @@
    * @param  {String} fn 模块主体函数
    */
   ModuleLoader.prototype.body = function(fn) {
+    this._body = fn;
     if (this._depLength === 0) {
       // 无依赖模块，标记为_loaded，并刷新所有模块的_loaded
       this._loaded = true;
       // 无依赖模块，直接执行模块body，获取模块实例
-      this._instance = this._exec();
+      this._exec();
       ModuleLoader._refreshModuleState();
     }
-    this._body = fn;
   };
 
 
