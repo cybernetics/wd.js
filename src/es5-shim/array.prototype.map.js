@@ -1,8 +1,9 @@
 /**
  * 自带的ES5 Shim里集成了一些ES5当中最常用的函数，用于加快编码效率。注意，这个类并不在全局对象
  * `wd`里存在。
- * 
- * @class ES5Shim
+ *
+ * @module ES5Shim
+ * @class  ES5Shim
  */
 ;(function() {
   if (!Array.prototype.map) {
