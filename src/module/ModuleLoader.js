@@ -8,10 +8,10 @@
    * @param {String} modulePath 模块的路径名
    */
   function ModuleLoader(modulePath) {
+    this.path = modulePath;
     this._depTable = {};
-    this._depResolved = 0;
-    this._depLength = 0;
     this._body = null;
+    this._depLength = 0;
     this._instance = null; // 模块body执行后得到的对象
     this._loaded = false;
 
@@ -115,10 +115,21 @@
     if (this._depLength === 0) {
       // 无依赖模块，标记为_loaded，并刷新所有模块的_loaded
       this._loaded = true;
-      // 无依赖模块，直接执行模块body，获取模块实例
-      this._exec();
-      ModuleLoader._refreshModuleState();
     }
+    ModuleLoader._refreshModuleState();
+    if (this._loaded) {
+      this._exec();
+    }
+  };
+
+  /**
+   * 立即运行模块主体
+   *
+   * @param  {String} fn 立即运行模块主体函数
+   */
+  ModuleLoader.prototype.run = function(fn) {
+    this._body = fn;
+    this._exec();
   };
 
 
@@ -129,22 +140,22 @@
    * @method  _exec
    */
   ModuleLoader.prototype._exec = function() {
-    // 模块body执行的上下文
-    var context = {};
-    // 注入所有依赖项
+    // 闭包函数中依赖模块存储的变量的定义
+    var vars = '';
+    // 加载所有依赖模块实例
     for (var modulePath in this._depTable) {
       var moduleLoader = ModuleLoader._moduleTable[modulePath],
-        alias = this._depTable.alias;
-      if (alias) {
-        context[modulePath] = moduleLoader._instance;
-      }
-      else {
-        context[alias] = moduleLoader.instance;
-      }
+        alias = this._depTable[modulePath].alias,
+        varname = alias ? alias : modulePath;
+      vars += ['var ', varname, ' = ', JSON.stringify(moduleLoader._instance), ';'].join('');
     }
+    // 动态创建闭包函数
+    var wrapperFn = new Function([vars, 'return (', this._body ,')();'].join(''));
     // 执行模块body，获取模块实例
-    this._instance = this._body.call(context);
+    this._instance = wrapperFn();
   };
+
+
 
   wd.ModuleLoader = ModuleLoader;
 })(wd);

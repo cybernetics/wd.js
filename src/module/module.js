@@ -17,12 +17,7 @@
    * @return {ModuleLoader|ModuleSandbox} 模块配置对象/模块运行沙盒
    */
   wd.module = function(modulePath) {
-    if (modulePath && typeof modulePath === 'string') {
-      return new wd.ModuleLoader(modulePath);
-    }
-    else {
-      return new wd.ModuleSandbox();
-    }
+    return new wd.ModuleLoader(modulePath);
   };
 
 })(wd);
